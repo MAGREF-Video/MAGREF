@@ -19,7 +19,7 @@
 
 ## 📑 Todo List
 - [x] Inference codes of MAGREF
-- [x] Checkpoint of MAGREF
+- [ ] Checkpoint of MAGREF
 - [ ] Checkpoint of MAGREF-14B Pro
 - [ ] Training codes of MAGREF
 
