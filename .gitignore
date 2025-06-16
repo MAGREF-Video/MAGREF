@@ -32,6 +32,9 @@ MANIFEST
 *.manifest
 *.spec
 
+logs/
+samples/
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
@@ -172,3 +175,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+.DS_Store
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
