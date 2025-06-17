@@ -2,7 +2,7 @@
 
 
 ## single_id driven video generation
-save_dir=./samples/${now}
+save_dir=./samples/single_id_${now}
 mkdir -p "${save_dir}"
 python generate.py \
     --ckpt_dir ./ckpts/magref \
@@ -12,7 +12,7 @@ python generate.py \
 
 
 ## multi_id driven video generation
-save_dir=./samples/${now}
+save_dir=./samples/multi_id_${now}
 mkdir -p "${save_dir}"
 python generate.py \
     --ckpt_dir ./ckpts/magref \
@@ -22,7 +22,7 @@ python generate.py \
 
 
 ## id_obj_env driven video generation
-save_dir=./samples/${now}
+save_dir=./samples/id_obj_env_${now}
 mkdir -p "${save_dir}"
 python generate.py \
     --ckpt_dir ./ckpts/magref \
