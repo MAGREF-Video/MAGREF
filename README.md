@@ -34,7 +34,7 @@ git clone https://github.com/MAGREF-Video/MAGREF.git
 cd MAGREF
 
 # 1. Create conda environment
-conda create -n magref python=3.10
+conda create -n magref python=3.11.2
 conda activate magref
 
 # 2. Install PyTorch and other dependencies
