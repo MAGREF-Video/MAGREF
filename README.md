@@ -65,26 +65,26 @@ huggingface-cli download MAGREF-Video/MAGREF --local-dir ./ckpts/magref
 
 ```bash
 # way 1
+bash infer_single_gpu.sh
+
+# way 2
 python generate.py \
     --ckpt_dir ./ckpts/magref \
     --save_dir ./samples \
     --prompt_path ./assets/single_id.txt \
-
-# way 2
-bash infer_single_gpu.sh
 ```
 
 - Multi-GPU inference
 ```bash
 # way 1
+bash infer_multi_gpu.sh
+
+# way 2
 torchrun --nproc_per_node=8 generate.py \
     --dit_fsdp --t5_fsdp --ulysses_size 8 \
     --ckpt_dir ./ckpts/magref \
     --save_dir ./samples \
     --prompt_path ./assets/multi_id.txt \
-
-# way 2
-bash infer_multi_gpu.sh
 ```
 > 💡Note: 
 > * To achieve the best generation results, we recommend that you describe the visual content of the reference image as accurately as possible when writing text prompt.
