@@ -64,7 +64,8 @@ huggingface-cli download MAGREF-Video/MAGREF --local-dir ./ckpts/magref
 
 ## 🤗 Quick Start
 - Single-GPU inference
-
+<br>Tested on a single NVIDIA H100 GPU.
+  The inference consumes around **70 GB** of VRAM, so an 80 GB GPU is recommended.
 ```bash
 # way 1
 bash infer_single_gpu.sh
