@@ -211,7 +211,7 @@ def generate(args):
         
 
         if rank == 0:
-            save_file = os.path.join(args.save_dir, f"{key}_{args.base_seed}.mp4")
+            save_file = os.path.join(args.save_dir, f"{key}.mp4")
             logging.info(f"Saving generated video to {save_file}")
             cache_video(
                 tensor=video[None],
