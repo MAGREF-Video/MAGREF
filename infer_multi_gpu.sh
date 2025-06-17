@@ -11,11 +11,10 @@ now=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE=logs/${job_name}_${now}.log
 echo 'log file: ' ${LOG_FILE}
 
-save_dir=./samples/${now}
-mkdir -p "${save_dir}"
-
 
 ## single_id driven video generation
+save_dir=./samples/${now}
+mkdir -p "${save_dir}"
 torchrun --nproc_per_node=8 generate.py \
     --dit_fsdp --t5_fsdp --ulysses_size 8 \
     --ckpt_dir ./ckpts/magref \
@@ -25,6 +24,8 @@ torchrun --nproc_per_node=8 generate.py \
 
 
 # multi_id driven video generation
+save_dir=./samples/${now}
+mkdir -p "${save_dir}"
 torchrun --nproc_per_node=8 generate.py \
     --dit_fsdp --t5_fsdp --ulysses_size 8 \
     --ckpt_dir ./ckpts/magref \
@@ -34,6 +35,8 @@ torchrun --nproc_per_node=8 generate.py \
 
 
 # id_obj_env driven video generation
+save_dir=./samples/${now}
+mkdir -p "${save_dir}"
 torchrun --nproc_per_node=8 generate.py \
     --dit_fsdp --t5_fsdp --ulysses_size 8 \
     --ckpt_dir ./ckpts/magref \
