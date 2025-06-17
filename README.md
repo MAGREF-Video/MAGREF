@@ -46,6 +46,10 @@ pip install torch==2.5.0 torchvision==0.20.0 torchaudio==2.5.0 --index-url https
 
 # 3. Install pip dependencies
 pip install -r requirements.txt
+
+
+# 4. (Optional) Install xfuser for multiple GPUs inference
+pip install "xfuser>=0.4.1"
 ```
 
 
