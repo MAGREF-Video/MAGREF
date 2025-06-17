@@ -13,7 +13,7 @@ echo 'log file: ' ${LOG_FILE}
 
 
 ## single_id driven video generation
-save_dir=./samples/${now}
+save_dir=./samples/single_id_${now}/
 mkdir -p "${save_dir}"
 torchrun --nproc_per_node=8 generate.py \
     --dit_fsdp --t5_fsdp --ulysses_size 8 \
@@ -24,7 +24,7 @@ torchrun --nproc_per_node=8 generate.py \
 
 
 # multi_id driven video generation
-save_dir=./samples/${now}
+save_dir=./samples/multi_id_${now}
 mkdir -p "${save_dir}"
 torchrun --nproc_per_node=8 generate.py \
     --dit_fsdp --t5_fsdp --ulysses_size 8 \
@@ -35,7 +35,7 @@ torchrun --nproc_per_node=8 generate.py \
 
 
 # id_obj_env driven video generation
-save_dir=./samples/${now}
+save_dir=./samples/id_obj_env_${now}
 mkdir -p "${save_dir}"
 torchrun --nproc_per_node=8 generate.py \
     --dit_fsdp --t5_fsdp --ulysses_size 8 \
