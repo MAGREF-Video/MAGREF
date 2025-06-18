@@ -21,8 +21,8 @@
 * `[2025.05.30]`  🔥 Our arXiv paper on MAGREF is now available.  The [Project Page](https://magref-video.github.io/magref.github.io/) of MAGREF is created.
 
 ## 📑 Todo List
-- [x] Inference codes of MAGREF
-- [x] Checkpoint of MAGREF
+- [x] Inference codes of MAGREF-480P
+- [x] Checkpoint of MAGREF-480P
 - [ ] Checkpoint of MAGREF-14B Pro
 - [ ] Training codes of MAGREF
 
