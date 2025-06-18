@@ -13,7 +13,10 @@
 
 
 ## 🔥 News
-* `[2025.06.16]`  🔥 In progress. Code and weights will be released later this week. Stay tuned!
+* `[2025.06.18]`  🔥 In progress. We are actively collecting and processing more diverse datasets and scaling up training with increased computational resources to further improve resolution, temporal consistency, and generation quality.
+ Stay turned！
+
+* `[2025.06.16]`  🔥 MAGREF is coming! The inference codes and [checkpoint](https://huggingface.co/MAGREF-Video/MAGREF/tree/main) have been released.
 
 * `[2025.05.30]`  🔥 Our arXiv paper on MAGREF is now available.  The [Project Page](https://magref-video.github.io/magref.github.io/) of MAGREF is created.
 
