@@ -14,6 +14,8 @@
 
 
 ## 🔥 News
+* `[2025.06.20]` 🙏 Thanks to **Kijai** for developing the [**ComfyUI nodes**](https://github.com/kijai/ComfyUI-WanVideoWrapper) for MAGREF and FP8-quantized Hugging Face mode! Feel free to try them out and add MAGREF to your workflow.
+
 * `[2025.06.18]`  🔥 In progress. We are actively collecting and processing more diverse datasets and scaling up training with increased computational resources to further improve resolution, temporal consistency, and generation quality.
  Stay turned！
 
@@ -26,6 +28,18 @@
 - [x] Checkpoint of MAGREF-480P
 - [ ] Checkpoint of MAGREF-14B Pro
 - [ ] Training codes of MAGREF
+
+
+## ✨ Community Works
+### ComfyUI
+Thanks for Kijai develop the ComfyUI nodes for MAGREF:
+[https://github.com/kijai/ComfyUI-WanVideoWrapper](https://github.com/kijai/ComfyUI-WanVideoWrapper)
+
+FP8 quant Huggingface Mode: [https://huggingface.co/Kijai/WanVideo_comfy/blob/main/Wan2_1-Wan-I2V-MAGREF-14B_fp8_e4m3fn.safetensors](https://huggingface.co/Kijai/WanVideo_comfy/blob/main/Wan2_1-Wan-I2V-MAGREF-14B_fp8_e4m3fn.safetensors)
+
+### Guideline
+Guideline by Benji: [https://www.youtube.com/watch?v=rwnh2Nnqje4](https://www.youtube.com/watch?v=rwnh2Nnqje4)
+
 
 ## ⚙️ Requirements and Installation
 We recommend the requirements as follows.
