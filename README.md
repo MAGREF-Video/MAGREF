@@ -4,7 +4,8 @@
 
 
 <a href="https://magref-video.github.io/magref.github.io/"><img src="https://img.shields.io/static/v1?label=Project&message=Page&color=blue&logo=github-pages"></a> &ensp;
-<a href="https://huggingface.co/MAGREF-Video/MAGREF/tree/main"><img src="https://img.shields.io/static/v1?label=%F0%9F%A4%96%20Released&message=Models&color=green"></a> &ensp;
+<a href="https://huggingface.co/MAGREF-Video/MAGREF/tree/main"><img src="https://img.shields.io/static/v1?label=%F0%9F%A4%96%20HuggingFace&message=Models&color=green"></a> &ensp;
+<a href="https://modelscope.cn/models/MAGREF/magref/files"><img src="https://img.shields.io/static/v1?label=%F0%9F%9A%80%20ModelScope&message=Models&color=brightgreen"></a> &ensp;
 <a href="https://magref-video.github.io/magref.github.io/"><img src="https://img.shields.io/static/v1?label=%F0%9F%A4%97%20Hugging%20Face&message=Demo&color=orange"></a> &ensp;
 
 </div>
