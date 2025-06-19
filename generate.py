@@ -211,6 +211,8 @@ def generate(args):
         
 
         if rank == 0:
+            # Skip the first 4 frames (which are sampled from the vae decoder first frame used as reference condition) to avoid visual blur
+            video = video[:, 4:, :, :]
             save_file = os.path.join(args.save_dir, f"{key}.mp4")
             logging.info(f"Saving generated video to {save_file}")
             cache_video(
