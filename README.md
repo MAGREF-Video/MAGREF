@@ -10,6 +10,10 @@
 
 </div>
 
+
+
+
+
 ![teaser](./assets/teaser.png)
 
 
@@ -22,6 +26,16 @@
 * `[2025.06.16]`  🔥 MAGREF is coming! The inference codes and [checkpoint](https://huggingface.co/MAGREF-Video/MAGREF/tree/main) have been released.
 
 * `[2025.05.30]`  🔥 Our arXiv paper on MAGREF is now available.  The [Project Page](https://magref-video.github.io/magref.github.io/) of MAGREF is created.
+
+## 🎥 Demo
+
+
+
+
+
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/cb447a53-f753-44ad-b975-d33ebde2a237" width="70%" poster="./assets/video_poster.png"> </video>
+</div>
 
 ## 📑 Todo List
 - [x] Inference codes of MAGREF-480P
