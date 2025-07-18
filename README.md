@@ -146,10 +146,5 @@ If you find our paper and code useful in your research, please consider giving a
   journal={arXiv preprint arXiv:2505.23742},
   year={2025}
 }
-@article{deng2025cinema,
-  title={Cinema: Coherent multi-subject video generation via mllm-based guidance},
-  author={Deng, Yufan and Guo, Xun and Wang, Yizhi and Fang, Jacob Zhiyuan and Wang, Angtian and Yuan, Shenghai and Yang, Yiding and Liu, Bo and Huang, Haibin and Ma, Chongyang},
-  journal={arXiv preprint arXiv:2503.10391},
-  year={2025}
 }
 ```
