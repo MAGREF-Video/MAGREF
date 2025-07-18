@@ -146,5 +146,4 @@ If you find our paper and code useful in your research, please consider giving a
   journal={arXiv preprint arXiv:2505.23742},
   year={2025}
 }
-}
 ```
