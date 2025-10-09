@@ -1,6 +1,6 @@
 <div align="center">
 
-## MAGREF: Masked Guidance for Any-Reference Video Generation
+## MAGREF: Masked Guidance for Any-Reference Video Generation with Subject Disentanglement
 
 <a href="https://arxiv.org/abs/2505.23742"><img src="https://img.shields.io/badge/Arxiv-2505.20292-b31b1b.svg?logo=arXiv"></a> &ensp;
 <a href="http://magref-video.github.io/"><img src="https://img.shields.io/static/v1?label=Project&message=Page&color=blue&logo=github-pages"></a> &ensp;
