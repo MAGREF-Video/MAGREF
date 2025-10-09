@@ -32,11 +32,10 @@
 
 
 
+https://github.com/user-attachments/assets/ea8f7195-4ffc-4866-b210-f66bac993b7a
 
 
-<div align="center">
-  <video src="https://github.com/user-attachments/assets/cb447a53-f753-44ad-b975-d33ebde2a237" width="70%" poster="./assets/video_poster.png"> </video>
-</div>
+
 
 ## 📑 Todo List
 - [x] Inference codes of MAGREF-480P
