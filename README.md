@@ -7,7 +7,22 @@
 <a href="https://huggingface.co/MAGREF-Video/MAGREF/tree/main"><img src="https://img.shields.io/static/v1?label=%F0%9F%A4%96%20HuggingFace&message=Models&color=green"></a> &ensp;
 <a href="https://modelscope.cn/models/MAGREF/magref/files"><img src="https://img.shields.io/static/v1?label=%F0%9F%9A%80%20ModelScope&message=Models&color=brightgreen"></a> &ensp;
 
+[Yufan Deng](http://magref-video.github.io/), 
+[Yuanyang Yin](https://github.com/YYY-MMW), 
+[Xun Guo](https://scholar.google.com/citations?user=XtHtIDcAAAAJ&hl=en), 
+[Yizhi Wang](https://actasidiot.github.io/), 
+[Jacob Zhiyuan Fang](https://www.jacobzhiyuanfang.me/), <br>
+[Shenghai Yuan](https://shyuanbest.github.io/), 
+[Yiding Yang](https://ihollywhy.github.io/), 
+[Angtian Wang](https://angtianwang.github.io/), 
+[Bo Liu](http://www.svcl.ucsd.edu/people/liubo/), 
+[Haibin Huang](https://brotherhuang.github.io/), 
+[Chongyang Ma](http://chongyangma.com/)
 
+
+
+
+> <br>Intelligent Creation Team, ByteDance<br>
 
 </div>
 
