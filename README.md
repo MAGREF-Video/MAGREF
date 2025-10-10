@@ -19,7 +19,7 @@
 
 
 ## 🔥 News
-* `[2025.10.10]`  🔥 Our [Arxiv Paper](https://arxiv.org/abs/2505.23742) of MAGREF is now available.  The [Project Page](https://magref-video.github.io/) of MAGREF is created.
+* `[2025.10.10]`  🔥 Our [Research Paper](https://arxiv.org/abs/2505.23742) of MAGREF is now available.  The [Project Page](https://magref-video.github.io/) of MAGREF is created.
 * `[2025.06.20]` 🙏 Thanks to **Kijai** for developing the [**ComfyUI nodes**](https://github.com/kijai/ComfyUI-WanVideoWrapper) for MAGREF and FP8-quantized Hugging Face mode! Feel free to try them out and add MAGREF to your workflow.
 
 * `[2025.06.18]`  🔥 In progress. We are actively collecting and processing more diverse datasets and scaling up training with increased computational resources to further improve resolution, temporal consistency, and generation quality.
