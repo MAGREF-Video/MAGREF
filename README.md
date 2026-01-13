@@ -153,10 +153,13 @@ If you find our paper and code useful in your research, please consider giving a
 
 ### BibTeX
 ```bibtex
-@article{deng2025magref,
-  title={MAGREF: Masked Guidance for Any-Reference Video Generation},
-  author={Deng, Yufan and Guo, Xun and Yin, Yuanyang and Fang, Jacob Zhiyuan and Yang, Yiding and Wang, Yizhi and Yuan, Shenghai and Wang, Angtian and Liu, Bo and Huang, Haibin and others},
-  journal={arXiv preprint arXiv:2505.23742},
-  year={2025}
+@misc{deng2025magrefmaskedguidanceanyreference,
+      title={MAGREF: Masked Guidance for Any-Reference Video Generation with Subject Disentanglement}, 
+      author={Yufan Deng and Yuanyang Yin and Xun Guo and Yizhi Wang and Jacob Zhiyuan Fang and Shenghai Yuan and Yiding Yang and Angtian Wang and Bo Liu and Haibin Huang and Chongyang Ma},
+      year={2025},
+      eprint={2505.23742},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2505.23742}, 
 }
 ```
