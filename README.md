@@ -23,6 +23,8 @@
 
 
 > <br>Intelligent Creation Team, ByteDance<br>
+> 
+> **ICLR 2026**
 
 </div>
 
@@ -34,6 +36,7 @@
 
 
 ## 🔥 News
+* `[2026.02.25]`  🔥 Congratulations! Our paper has been accepted to **ICLR 2026**.
 * `[2025.10.10]`  🔥 Our [Research Paper](https://arxiv.org/abs/2505.23742) of MAGREF is now available.  The [Project Page](https://magref-video.github.io/) of MAGREF is created.
 * `[2025.06.20]` 🙏 Thanks to **Kijai** for developing the [**ComfyUI nodes**](https://github.com/kijai/ComfyUI-WanVideoWrapper) for MAGREF and FP8-quantized Hugging Face mode! Feel free to try them out and add MAGREF to your workflow.
 
@@ -153,13 +156,10 @@ If you find our paper and code useful in your research, please consider giving a
 
 ### BibTeX
 ```bibtex
-@misc{deng2025magrefmaskedguidanceanyreference,
-      title={MAGREF: Masked Guidance for Any-Reference Video Generation with Subject Disentanglement}, 
-      author={Yufan Deng and Yuanyang Yin and Xun Guo and Yizhi Wang and Jacob Zhiyuan Fang and Shenghai Yuan and Yiding Yang and Angtian Wang and Bo Liu and Haibin Huang and Chongyang Ma},
-      year={2025},
-      eprint={2505.23742},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2505.23742}, 
+@article{deng2025magref,
+  title={MAGREF: Masked Guidance for Any-Reference Video Generation with Subject Disentanglement},
+  author={Deng, Yufan and Yin, Yuanyang and Guo, Xun and Wang, Yizhi and Fang, Jacob Zhiyuan and Yuan, Shenghai and Yang, Yiding and Wang, Angtian and Liu, Bo and Huang, Haibin and others},
+  journal={arXiv preprint arXiv:2505.23742},
+  year={2025}
 }
 ```
