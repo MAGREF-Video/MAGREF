@@ -22,7 +22,7 @@
 
 
 
-> <br>Intelligent Creation Team, ByteDance<br>
+> <br>PKU, ByteDance<br>
 > 
 > **ICLR 2026**
 
