@@ -131,69 +131,175 @@ class MagRefModel:
         self.sample_neg_prompt = config.sample_neg_prompt
 
     def process_refimg(self, pil_images, target_height=480, target_width=832):
+        """
+        处理参考图像，支持多种 scale 布局方式。
+        根据输入图像数量自动选择合适的 scale。
 
-        # 1. Create a white canvas and an empty mask
+        Args:
+            pil_images: 输入的 PIL 图像列表
+            target_height: 目标高度
+            target_width: 目标宽度
+
+        Returns:
+            - PIL.Image: 拼接后的图像
+            - torch.Tensor: 下采样后的 latent mask
+            - torch.Tensor: latent blocks 坐标
+            - list: mllm_refimg 图像列表
+        """
+        # 根据图像数量自动选择 scale
+        num_images = len(pil_images)
+        available_scales = [1, 2, 3, 4, 6, 8]
+        scale = min([s for s in available_scales if s >= num_images], default=8)
+
+        if self.rank == 0:
+            logging.info(f"自动选择 scale={scale} (输入图像数量: {num_images})")
+        # 1. 构建白底大图和对应 mask
         canvas = Image.new("RGB", (target_width, target_height), (255, 255, 255))
         mask_np = np.zeros((target_height, target_width), dtype=np.uint8)
+        mllm_refimg = []
 
-        if target_width == 832 and target_height == 480:
-            # Horizontal composition: divide into three blocks (left, center, right)
-            block_widths = [277, 278, 277]
-            blocks = [(sum(block_widths[:i]), sum(block_widths[:i+1])) for i in range(3)]
+        # Determine the number of blocks based on the scale
+        if scale == 1:
+            block_layout = [(0, 0, target_width, target_height)]
+        elif scale == 2:
+            block_width = target_width // 2
+            block_layout = [(0, 0, block_width, target_height),
+                          (block_width, 0, target_width, target_height)]
+        elif scale == 3:
+            block_width = target_width // 3
+            block_layout = [(0, 0, block_width, target_height),
+                          (block_width, 0, block_width * 2, target_height),
+                          (block_width * 2, 0, target_width, target_height)]
+        elif scale == 4:
+            block_width = target_width // 2
+            block_height = target_height // 2
+            block_layout = [(0, 0, block_width, block_height),
+                          (block_width, 0, target_width, block_height),
+                          (0, block_height, block_width, target_height),
+                          (block_width, block_height, target_width, target_height)]
+        elif scale == 6:
+            block_width = target_width // 3
+            block_height = target_height // 2
+            block_layout = [(0, 0, block_width, block_height),
+                          (block_width, 0, block_width * 2, block_height),
+                          (block_width * 2, 0, target_width, block_height),
+                          (0, block_height, block_width, target_height),
+                          (block_width, block_height, block_width * 2, target_height),
+                          (block_width * 2, block_height, target_width, target_height)]
+        elif scale == 8:
+            block_width = target_width // 4
+            block_height = target_height // 2
+            block_layout = [(0, 0, block_width, block_height),
+                          (block_width, 0, block_width * 2, block_height),
+                          (block_width * 2, 0, block_width * 3, block_height),
+                          (block_width * 3, 0, target_width, block_height),
+                          (0, block_height, block_width, target_height),
+                          (block_width, block_height, block_width * 2, target_height),
+                          (block_width * 2, block_height, block_width * 3, target_height),
+                          (block_width * 3, block_height, target_width, target_height)]
 
-            # If only one image, use center block; otherwise use the first three images
-            indices = [1] if len(pil_images) == 1 else list(range(len(pil_images[:3])))
-            for img_i, block_i in enumerate(indices):
-                pil_img = pil_images[img_i]
-                block_w = block_widths[block_i]
-                x_start, x_end = blocks[block_i]
-                resized_img, resized_mask = self.resize_and_pad(pil_img, target_height=target_height, target_width=block_w)
-                img_pil = Image.fromarray(resized_img.numpy().transpose(1, 2, 0))
-                mask_np[:, x_start:x_end] = resized_mask.numpy()
-                canvas.paste(img_pil, (x_start, 0))
+        # Randomly distribute images into the blocks
+        num_blocks = len(block_layout)
+        indices = list(range(len(pil_images)))
+        random.shuffle(indices)
+        random.shuffle(block_layout)
 
-        # 2. Convert the composed image to tensor and return it with its mask
-        np_img = np.asarray(canvas, dtype=np.uint8).transpose(2, 0, 1)  # (C, H, W)
+        # Ensure we don't use more images than blocks
+        indices = indices[:num_blocks]
+
+        for img_i, (x_start, y_start, x_end, y_end) in zip(indices, block_layout):
+            pil_img = pil_images[img_i]
+            block_w = x_end - x_start
+            block_h = y_end - y_start
+
+            # Resize and pad image to fit the block
+            only_resize_img, resized_img, resized_mask = self.resize_and_pad(
+                pil_img, target_height=block_h, target_width=block_w)
+            img_pil = Image.fromarray(resized_img.numpy().transpose(1, 2, 0))
+            mask_np[y_start:y_end, x_start:x_end] = resized_mask.numpy()
+            canvas.paste(img_pil, (x_start, y_start))
+
+            img_tensor = torch.from_numpy(np.array(only_resize_img)).permute(2, 0, 1).contiguous()
+            mllm_refimg.append(img_tensor)
+
+        # 2. 最终返回拼接好的图像（转换为 tensor）和对应 mask
+        np_img = np.asarray(canvas, dtype=np.uint8).transpose(2, 0, 1)
         out_tensor = torch.from_numpy(np_img)
         mask_tensor = torch.from_numpy(mask_np)
 
-        # 3. Downsample the mask (stride=8)
+        # 3. 下采样 mask（stride=8）
         def downsample_mask(mask_np, factor=8):
             h, w = mask_np.shape
             new_h, new_w = h // factor, w // factor
             downsampled = np.zeros((new_h, new_w), dtype=np.uint8)
             for i in range(new_h):
                 for j in range(new_w):
-                    patch = mask_np[i*factor:(i+1)*factor, j*factor:(j+1)*factor]
+                    patch = mask_np[i * factor:(i + 1) * factor, j * factor:(j + 1) * factor]
                     if patch.any():
                         downsampled[i, j] = 1
             return torch.from_numpy(downsampled)
 
+        def get_latent_regions_safe(blocks, factor=8):
+            latent_blocks = []
+            for x_start, y_start, x_end, y_end in blocks:
+                latent_x_end = x_end // factor
+                latent_x_start = math.ceil(x_start / factor) if x_start > 0 else 0
+                latent_y_end = y_end // factor
+                latent_y_start = math.ceil(y_start / factor) if y_start > 0 else 0
+
+                if latent_x_start < latent_x_end and latent_y_start < latent_y_end:
+                    latent_blocks.append((latent_x_start, latent_x_end, latent_y_start, latent_y_end))
+
+            if not latent_blocks:
+                return torch.empty((0, 4), dtype=torch.long)
+            return torch.tensor(latent_blocks, dtype=torch.long)
+
         latent_mask_tensor = downsample_mask(mask_np)
+        latent_blocks = get_latent_regions_safe(block_layout)
 
         out_pil = Image.fromarray(out_tensor.permute(1, 2, 0).numpy())
 
-        return out_pil, latent_mask_tensor
+        # Save debug images if enabled
+        if hasattr(self.config, 'save_debug_images') and self.config.save_debug_images:
+            debug_dir = getattr(self.config, 'debug_dir', 'debug_output')
+            os.makedirs(debug_dir, exist_ok=True)
+
+            # Generate unique filename based on timestamp
+            import time
+            timestamp = int(time.time() * 1000)
+
+            # Save composed image
+            composed_path = os.path.join(debug_dir, f'composed_image_{timestamp}.jpg')
+            out_pil.save(composed_path, format='JPEG')
+
+            # Save mask as grayscale image
+            mask_image = Image.fromarray((mask_np * 255).astype(np.uint8), mode='L')
+            mask_path = os.path.join(debug_dir, f'mask_image_{timestamp}.jpg')
+            mask_image.save(mask_path, format='JPEG')
+
+            if self.rank == 0:
+                logging.info(f"Saved debug images: {composed_path}, {mask_path}")
+
+        return out_pil, latent_mask_tensor, latent_blocks, mllm_refimg
     
+
     def resize_and_pad(self, pil_img: Image.Image, target_height: int, target_width: int):
         """
-        Resize the image while preserving aspect ratio, then center-pad with white background.
-        Returns both the padded image and a binary mask indicating valid (non-padded) regions.
+        等比缩放 + 白色居中填充，并返回原始缩放图像、填充后的图像和有效区域 mask。
 
         Returns:
-            - torch.Tensor (uint8): image tensor of shape (3, H, W)
-            - torch.Tensor (uint8): mask tensor of shape (H, W), where 1 denotes valid content and 0 denotes padding
+            - PIL.Image: 仅缩放的图像（未填充）
+            - torch.Tensor(uint8): 填充后的图像张量 (3, H, W)
+            - torch.Tensor(uint8): mask张量 (H, W)，1表示有效区域，0表示填充区域
         """
-
         if pil_img.mode == 'RGBA':
-            # Convert transparent background to white using the alpha channel as a mask
             background = Image.new("RGB", pil_img.size, (255, 255, 255))
-            background.paste(pil_img, mask=pil_img.split()[3])  # 用 alpha 作为 mask
+            background.paste(pil_img, mask=pil_img.split()[3])
             img = background
         else:
             img = pil_img.convert("RGB")
 
-        # Resize while preserving aspect ratio
+        # 原始尺寸缩放
         img_ratio = img.width / img.height
         target_ratio = target_width / target_height
 
@@ -205,8 +311,9 @@ class MagRefModel:
             new_w = int(new_h * img_ratio)
 
         img = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+        only_resize_img = img
 
-        # Compute padding dimensions
+        # padding 参数
         pad_w = target_width - new_w
         pad_h = target_height - new_h
         padding = (
@@ -216,16 +323,16 @@ class MagRefModel:
             pad_h - pad_h // 2,
         )
 
-        # Apply padding to both image and mask
-        img = ImageOps.expand(img, padding, fill=(255, 255, 255)) # pad with white
-        mask = Image.new("L", (new_w, new_h), color=1)  # valid region = 1
-        mask = ImageOps.expand(mask, padding, fill=0)   # padded region = 0
+        # 构造图像和 mask 同时填充
+        img = ImageOps.expand(img, padding, fill=(255, 255, 255))
+        mask = Image.new("L", (new_w, new_h), color=1)
+        mask = ImageOps.expand(mask, padding, fill=0)
 
-        # Convert to tensors
-        np_img = np.asarray(img, dtype=np.uint8).transpose(2, 0, 1)  # (3, H, W)
-        np_mask = np.asarray(mask, dtype=np.uint8)  # (H, W)
+        # 转成张量
+        np_img = np.asarray(img, dtype=np.uint8).transpose(2, 0, 1)
+        np_mask = np.asarray(mask, dtype=np.uint8)
 
-        return torch.from_numpy(np_img), torch.from_numpy(np_mask)
+        return only_resize_img, torch.from_numpy(np_img), torch.from_numpy(np_mask)
 
     def generate(self,
                  input_prompt,
@@ -245,8 +352,8 @@ class MagRefModel:
         Args:
             input_prompt (`str`):
                 Text prompt for content generation.
-            img (PIL.Image.Image):
-                Input image tensor. Shape: [3, H, W]
+            img (PIL.Image.Image or list):
+                Input image or list of images. Shape: [3, H, W]
             max_area (`int`, *optional*, defaults to 720*1280):
                 Maximum pixel area for latent space calculation. Controls video resolution scaling
             frame_num (`int`, *optional*, defaults to 81):
@@ -266,7 +373,6 @@ class MagRefModel:
                 Random seed for noise generation. If -1, use random seed
             offload_model (`bool`, *optional*, defaults to True):
                 If True, offloads models to CPU during generation to save VRAM
-
         Returns:
             torch.Tensor:
                 Generated video frames tensor. Dimensions: (C, N H, W) where:
@@ -275,8 +381,12 @@ class MagRefModel:
                 - H: Frame height (from max_area)
                 - W: Frame width from max_area)
         """
-        
-        img, ref_latent_mask = self.process_refimg(img, target_height=480, target_width=832)
+
+        # 统一使用新的实现，自动根据图像数量选择 scale
+        if not isinstance(img, list):
+            img = [img]
+        img, ref_latent_mask, latent_blocks, mllm_refimg = self.process_refimg(
+            img, target_height=480, target_width=832)
         img = TF.to_tensor(img).sub_(0.5).div_(0.5).to(self.device)
 
         F = frame_num
